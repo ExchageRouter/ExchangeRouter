@@ -18,7 +18,7 @@ The `exchange` library is a lightweight server module designed for microservices
 To use the `exchange` library in your project, you can install it using npm:
 
 ```bash
-npm install exchange
+npm install exchange-router
 ```
 
 ## Usage
@@ -26,7 +26,7 @@ npm install exchange
 To get started, require the `exchange` module in your main entry file (e.g., `index.js`):
 
 ```javascript
-const exchange = require('exchange');
+const exchange = require('exchange-router');
 ```
 
 ## Creating Routes
@@ -70,7 +70,7 @@ exchange.startServer(port, () => {
 To keep your code organized, you can create a separate module for defining routes and then import it into your main file. Here's an example of a `router.js` module:
 
 ```javascript
-const exchange = require('exchange');
+const exchange = require('exchange-router');
 const router = exchange.Router();
 
 router
