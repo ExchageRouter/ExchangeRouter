@@ -1,7 +1,7 @@
 {
-    "name": "exchange-router",
+    "name": "exchangerouter",
     "version": "1.0.0",
-    "description": "The `exchange` library is a lightweight server module designed for microservices communication, offering fast and efficient response times. This documentation will provide an overview of the `exchange` library's features and how to use it to create a microservices-friendly server.",
+    "description": "- Author: Mahmud Olamilekan Aremu\r - Occupation: Software Engineer",
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
