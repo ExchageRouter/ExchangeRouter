@@ -100,7 +100,8 @@ router
 
 module.exports = router;
 ```
-You can chain requests like
+You can chain requests like;
+
 ```javascript
 
 router
