@@ -6,6 +6,7 @@ const { parse: parseUrl } = require('url');
 const populate_response_object_with_new_methods = require('./populate_response_with_new_methods');
 const isJSONString = require('./isJson');
 const parseQueryData = require('./parse_query_data');
+const orchestrateAPIs = require('./orchestrate/orchestrate');
 
 class Exchange {
     constructor() {
@@ -187,6 +188,15 @@ class Exchange {
                 }
             }
         }
+    }
+
+    async orchestrate(config) {
+        try {
+            return await orchestrateAPIs(config)
+        } catch (err) {
+            return err
+        }
+
     }
 }
 

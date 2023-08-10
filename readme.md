@@ -113,6 +113,50 @@ router
         res.send('You got hooked again! Welcome back!');
     });
 ```
+
+## Orchestrating Multiple API Calls
+
+The `exchange` library provides the capability to orchestrate multiple API calls, allowing you to efficiently manage and coordinate requests. This is particularly useful when you need to execute a sequence of API calls in a specific order.
+
+In the example provided below, we demonstrate how to use the `exchange` library to orchestrate multiple API calls. The first API in the list contains initial data that is passed down the pipeline, and subsequent APIs can be designed to process and augment this data further.
+
+
+```javascript
+
+const apiList = [
+    // Define API information here
+    {
+        uri: 'http://localhost:3002/api/data',
+        method: 'post',
+        requestData: {
+            key: 35  // Initial data to be passed down the pipeline
+        },
+
+    },
+    {
+        uri: 'http://localhost:3001/api/data',
+        method: 'post',
+
+    }, {
+        uri: 'http://localhost:3003/api/data',
+        method: 'post',
+
+    }
+    // Add more APIs here
+];
+
+let exchange = require('./ExchangeRouter');
+
+exchange.orchestrate(apiList)
+    .then(finalResult => {
+        console.log('Final Result:', finalResult);
+    })
+    .catch(error => {
+        console.error('Error:', error.message);
+    });
+
+```
+
 ## About the Author
 
 As the author of this exchange library documentation, I am a software engineer with expertise in web development and server-side programming. I developed this library to provide developers with a lightweight and efficient solution for building microservices-friendly servers with fast and reliable response times. If you have any questions or need further assistance, feel free to contact me.
