@@ -145,7 +145,7 @@ const apiList = [
     // Add more APIs here
 ];
 
-let exchange = require('./ExchangeRouter');
+let exchange = require('exchange-router');
 
 exchange.orchestrate(apiList)
     .then(finalResult => {

@@ -1,6 +1,6 @@
 {
     "name": "exchange-router",
-    "version": "1.2.0",
+    "version": "1.3.1",
     "description": "- Author: Mahmud Olamilekan Aremu\r - Occupation: Software Engineer",
     "main": "index.js",
     "scripts": {
