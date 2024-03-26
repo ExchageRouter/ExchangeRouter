@@ -28,6 +28,13 @@ class Exchange {
      */
     startServer(port, callback) {
         this.httpServer((req, res) => {
+
+            res.setHeader('Content-Security-Policy', "script-src 'self'");
+        
+             // Set other headers as needed (X-XSS-Protection, X-Frame-Options, etc.)
+            res.setHeader('X-XSS-Protection', '1; mode=block'); // Mitigate XSS attacks
+            res.setHeader('X-Frame-Options', 'DENY'); // Prevent clickjacking
+            
             const method = req.method;
             if (method !== 'POST' && method !== 'GET') {
                 res.end(`Cannot support ${method.toUpperCase()} method, use GET or POST`);
