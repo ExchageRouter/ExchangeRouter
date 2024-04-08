@@ -157,6 +157,142 @@ exchange.orchestrate(apiList)
 
 ```
 
+
+## TCP Server Connection Management
+
+The TCP Protocol Controller is a feature integrated into the Exchange class, which enhances communication capabilities within Node.js applications. It facilitates connections to multiple TCP servers, manages data communication, and handles reconnections in case of failures. Below is a documentation that provides an overview of how to use this feature, error handling scenarios, events to listen to, and additional documentation.
+
+## Getting Started
+
+To use the TCP Protocol Controller feature, follow these steps:
+
+
+1. Require `exchange-router` in your application:
+
+   ```javascript
+   const Exchange = require('exchange-router');
+   ```
+
+2. Use the `startTCPSystem` method to start the TCP system:
+   ```javascript
+   const systems = [
+       { host: 'example.com', port: 3000, name: 'Client1' },
+       { host: 'example.org', port: 4000, name: 'Client2' }
+   ];
+
+   exchange.startTCPSystem(systems, (req, res) => {
+       // Handle incoming TCP requests
+        let clientID = req.clientID
+        res.send({ "message": 'recieved response from client: '+ clientID })
+   });
+   ```
+
+## Handling incoming TCP requests in the provided callback function.
+
+### `req` Object
+
+The `req` object represents the incoming request in the TCP server's callback function. It contains the following properties:
+
+- `req.data`: The parsed data from the client. It may include parameters, commands, or any other information sent by the client.
+- `req.clientID`: The ID of the client sending the request.
+- `req.clientName`: The name of the client sending the request.
+- `req.error`: An error object, if any error occurred during the request processing.
+
+
+### `res` Object
+
+The `res` object represents the response that the TCP server sends back to the client. It contains only one method:
+
+#### Methods:
+
+- `res.send(data, [client]): boolean`: Sends data back to the client. This method is specific to the TCP Protocol Controller feature. It is used to send data to clients connected to the TCP server. The `data` parameter must be an object. Optionally, you can specify the `client` to send the data to. If not provided, it defaults to the client specified in the request object. Returns `true` if the sending process is successful and `false` if it fails.
+
+#### Example Usage:
+
+```javascript
+// Send data back to the client
+const success = res.send({ message: 'Hello, world!' });
+
+if (success) {
+    console.log('Data sent successfully');
+} else {
+    console.error('Failed to send data');
+}
+
+// Send data to a specific client
+const success = res.send({ message: 'Hello, client!' }, 'Client1');
+```
+
+The `res.send()` method provides a convenient way to send data back to clients connected to the TCP server. It accepts an object as the data parameter and an optional client parameter to specify the recipient of the data. 
+
+ The client parameter is based on the names given to the servers during connection.  It returns `true` if the sending process is successful and `false` if it fails.
+
+## Events
+
+The TCP Protocol Controller emits events using Node.js EventEmitter for various scenarios. You can listen to these events to handle specific situations:
+
+- `TCP_ERR_CONN`: This event is emitted when a connection to a TCP server fails. It provides an error message as a parameter.
+
+- `SERV_CONN`: This event is emitted when a connection to a TCP server is successfully established. It provides information about the successful connection.
+
+- `SERV_RECONN`: This event is emitted when a re-connection to a TCP server is successfully established i.e during a reconnection. It provides information about the successful connection.
+
+To listen for these events, you will to attach event listeners provided by the `startTCPSystem` method. Here's how you can do it:
+
+```javascript
+// Import the Exchange class
+const exchange = require('exchange-router');
+
+// Start the TCP system
+const systems = [
+    { host: 'example.com', port: 3000, name: 'Server1' },
+    { host: 'example.org', port: 4000, name: 'Server2' }
+];
+
+// Start the TCP system and attach event listeners
+exchange.startTCPSystem(systems, (req, res) => {
+    // Handle incoming TCP requests
+      let clientID = req.clientID
+      res.send({ "message": 'recieved response from client: '+ clientID })
+})
+.on('TCP_ERR_CONN', (error) => {
+    console.error('Error connecting to TCP server:', error);
+})
+.on('SERV_CONN', (successObject) => {
+    console.log('Successfully connected to TCP server:', successObject);
+})
+.on('SERV_RECONN', (successObject) => {
+    console.log('Successfully re-connected to TCP server:', successObject);
+});
+```
+
+
+## Error Handling
+
+The TCP Protocol Controller feature includes top-notch error handling scenarios to provide helpful error messages and logs. Here are some scenarios:
+
+- Missing Data in Systems Array: If an item in the systems array is missing data (e.g., host or port), the controller logs the error with the index of the problematic item, providing a clear indication of the data that was wrong.
+
+- Connection Failures: If a connection to a TCP server fails, the controller handles it gracefully, logs the error, and attempts reconnection automatically.
+
+
+## Additional Documentation
+
+For more detailed information and advanced usage of the TCP Protocol Controller feature, refer to the inline comments in the codebase. The code is structured using best practices and well-documented for easy understanding and maintenance.
+
+## Contributors
+
+- Mahmud Aremu (@aremumahmud)
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+
+
 ## About the Author
 
 As the author of this exchange library documentation, I am a software engineer with expertise in web development and server-side programming. I developed this library to provide developers with a lightweight and efficient solution for building microservices-friendly servers with fast and reliable response times. If you have any questions or need further assistance, feel free to contact me.
+
+- LinkedIn : [MahmudAremu](www.linkedin.com/in/mahmud-aremu)
+- Email : [MahmudAremu](mailto:aremumahmud2003@gmail.com)

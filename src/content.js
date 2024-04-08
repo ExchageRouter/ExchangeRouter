@@ -7,6 +7,7 @@ const populate_response_object_with_new_methods = require('./populate_response_w
 const isJSONString = require('./isJson');
 const parseQueryData = require('./parse_query_data');
 const orchestrateAPIs = require('./orchestrate/orchestrate');
+const tcp_protocol_controller = require('./protocols/tcp');
 
 class Exchange {
     constructor() {
@@ -195,6 +196,11 @@ class Exchange {
                 }
             }
         }
+    }
+
+
+    startTCPSystem(systems, callback) {
+        return tcp_protocol_controller(systems, false, callback)
     }
 
     async orchestrate(config) {
